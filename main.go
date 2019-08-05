@@ -9,12 +9,13 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"github.com/mavricknz/ldap"
 	"log"
 	"net/http"
 	"net/http/fcgi"
 	"strings"
 	"time"
+
+	"github.com/jcalabro/ldap"
 )
 
 var (
@@ -50,7 +51,7 @@ var tlsConfig = &tls.Config{InsecureSkipVerify: true}
 var server = &Server{}
 
 func (s *Server) authenticate(username, password string) (r bool, e error) {
-	l := ldap.NewLDAPSSLConnection(*host, uint16(*port), tlsConfig)
+	l := ldap.NewLDAPTLSConnection(*host, uint16(*port), tlsConfig)
 	e = l.Connect()
 	if e != nil {
 		return
